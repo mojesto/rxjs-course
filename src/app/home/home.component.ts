@@ -27,6 +27,9 @@ export class HomeComponent implements OnInit {
         tap(() => console.log('http executed')),
         map(res => Object.values(res['payload'])),
         shareReplay<Course[]>(),
+        retryWhen(errors => errors.pipe(
+          delayWhen(() => timer(2000)),
+        )),
       );
 
     this.beginnerCourses$ = courses$
